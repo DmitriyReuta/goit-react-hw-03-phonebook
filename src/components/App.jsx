@@ -7,7 +7,20 @@ function generateUniqueId(contacts) {
   return contacts.reduce((maxId, contact) => Math.max(maxId, contact.id), 0) + 1;
 }
 
+
 export class App extends Component {
+   componentDidMount() {
+    const storedContacts = localStorage.getItem('contacts');
+    if (storedContacts) {
+      this.setState({ contacts: JSON.parse(storedContacts) });
+    }
+  }
+
+  componentDidUpdate(prevState) {
+    if (prevState.contacts !== this.state.contacts) {
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    }
+  }
       state = {
       contacts: [
         { id: 1, name: 'Rosie Simpson', number: '459-12-56' },
